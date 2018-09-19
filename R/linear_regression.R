@@ -1,0 +1,111 @@
+#Defining class to the object
+#Calculations storing in an object with class linreg
+linreg <- setRefClass(Class = "linreg",
+                      fields = list(formula="formula", data="data.frame", Beta="matrix", yf="matrix", e="matrix", df="numeric", 
+                                    sigma_square="numeric", var_Beta="matrix", t_Beta="matrix", p="matrix",
+                                    parse="character", stand_res="matrix",variance="numeric"),
+                      methods = list(
+                        inputs = function(formula,data){
+                          formula <<- formula
+                          data <<- data
+                          X <- model.matrix(formula,data)
+                          dep_y <- all.vars(formula)[1]
+                          y <- (data[,dep_y])
+                          parse <<- deparse(substitute(data))
+                          #Regressions coeﬃcients
+                          Beta <- solve((t(X)%*%X))%*%t(X)%*%y
+                          #X <- QR
+                          #Beta <- solve(R)%*%t(Q)%*%y
+                          #Fitted values
+                          yf <- X%*%Beta
+                          #Residuals
+                          e <- y-yf
+                          #Degrees of freedom
+                          df <- nrow(X)-ncol(X)
+                          #Residual variance
+                          Sigma_square <- (t(e)%*%e) / df
+                          #Variance of regression coefficients
+                          Var_Beta <- Sigma_square * solve((t(X)%*%X))
+                          #t-values for each coefficient
+                          t_Beta <- Beta / sqrt(diag(Var_Beta))
+                          #p values for reg coefficients
+                          pvalue <- pt(abs(t_Beta),df)
+                          #variance value
+                          variance <- round(sqrt(Sigma_square),2)
+                          #standardised residual for plot2
+                          stand_res <- sqrt(abs((e-mean(e)) / sqrt(Sigma_square)))
+                        },
+                        
+                        #Methods
+                        #print(),plot(), resid(),pred(),coef(),summary()
+                        print <- function(){
+                             
+                         },
+                        
+                        
+                        plot <- function(){
+                          library(ggplot2)
+                          #plotting yf and e
+                          data_frame1 <- data.frame(Fitted_values=yf,Residuals=e)
+                          p1 <- ggplot(data_frame1,aes(Fitted_values,Residuals))+
+                                geom_point()+geom_abline()+
+                                ggtitle("Residuals vs Fitted")+
+                                xlab("Fitted values lm(Petal.Length ~ Species)")+
+                                ylab("Residuals")
+                          
+                          data_frame2 <- data.frame(Fitted_values=yf,Residuals=stand_res)
+                          p2 <- ggplot(data_frame2,aes(Fitted_values,Residuals))+
+                                geom_point()+geom_abline()+
+                                ggtitle("Scale-Location")+
+                                xlab("Fitted values lm(Petal.Length ~ Species)")+
+                                ylab(expression(bold(sqrt(bold("Standardized Residuals")))) )
+                          return(list(p1, p2))
+                        },
+                        
+                        resid <- function(){
+                          cat("Returning vector of residuals e:", "\n")
+                          return(as.vector(round(e,2)))
+                        },
+                        
+                        pred <- function(){
+                          cat("Returning predicted values yf:", "\n")
+                          return(as.vector(round(yf,2)))
+                        },
+                        
+                        coef <- function(){
+                          cat("Returning coefficients as a vector:", "\n")
+                          return(as.vector(round(Beta,2)))
+                        },
+                        summary <- function(){
+                          
+                          
+                            
+                        }
+                        
+                        
+                        
+                    
+                        
+                        
+                        
+                      ))
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+
+
+
+
+
+
+
+
+

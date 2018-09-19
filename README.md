@@ -1,2 +1,2 @@
-# LR
-A Linear regression package
+# linear_regression
+Package for linear regression
