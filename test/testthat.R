@@ -1,4 +1,4 @@
 library(testthat)
-library(linear_regression)
+library(LR)
 
-test_check("linear_regression")
+test_check("LR")
