@@ -1,9 +1,9 @@
-Package: linear_regression
+Package: LR
 Type: Package
 Title: Linear Regression using RC class
 Version: 0.1.0
-Author: Roshni, Mariano and Pedram
-Maintainer: The package maintainer <rossu809@student.liu.se>
+Author: Roshni, Pedram and Mariano
+Maintainer: The package maintainer <pedka102@student.liu.se>
 Description: This package is created to handle linear regression models.
 License: GPL-2
 Encoding: UTF-8
