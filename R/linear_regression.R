@@ -1,11 +1,27 @@
-#Defining class to the object
-#Calculations storing in an object with class linreg
+
+
+
 linreg <- setRefClass(Class = "linreg",
+                      
+                      
                       fields = list(formula="formula", data="data.frame", Beta="matrix", yf="matrix", e="matrix", df="numeric", 
                                     Sigma_square="numeric", Var_Beta="matrix", t_Beta="matrix", pvalue="matrix",
                                     parse="character", stand_res="matrix",variance="numeric"),
+                      
+                      
+                      
                       methods = list(
-                        inputs = function(formula,data){
+                        
+                        initialize =function (formula,data)
+                        {
+                          c<-colnames(data)
+                          d<-formula
+                          stopifnot(d %in% c)
+                        }
+                        
+                        
+                        ,inputs = function(formula,data){
+                          
                           formula <<- formula
                           data <<- data
                           X <- model.matrix(formula,data)
@@ -39,8 +55,8 @@ linreg <- setRefClass(Class = "linreg",
                         #Methods
                         #print(),plot(), resid(),pred(),coef(),summary()
                         print = function(){
-                             
-                         },
+                          
+                        },
                         
                         
                         plot = function(){
@@ -48,17 +64,17 @@ linreg <- setRefClass(Class = "linreg",
                           #plotting yf and e
                           data_frame1 <- data.frame(Fitted_values=yf,Residuals=e)
                           p1 <- ggplot(data_frame1,aes(Fitted_values,Residuals))+
-                                geom_point()+geom_abline()+
-                                ggtitle("Residuals vs Fitted")+
-                                xlab("Fitted values lm(Petal.Length ~ Species)")+
-                                ylab("Residuals")
+                            geom_point()+geom_abline()+
+                            ggtitle("Residuals vs Fitted")+
+                            xlab("Fitted values lm(Petal.Length ~ Species)")+
+                            ylab("Residuals")
                           
                           data_frame2 <- data.frame(Fitted_values=yf,Residuals=stand_res)
                           p2 <- ggplot(data_frame2,aes(Fitted_values,Residuals))+
-                                geom_point()+geom_abline()+
-                                ggtitle("Scale-Location")+
-                                xlab("Fitted values lm(Petal.Length ~ Species)")+
-                                ylab(expression(bold(sqrt(bold("Standardized Residuals")))) )
+                            geom_point()+geom_abline()+
+                            ggtitle("Scale-Location")+
+                            xlab("Fitted values lm(Petal.Length ~ Species)")+
+                            ylab(expression(bold(sqrt(bold("Standardized Residuals")))) )
                           return(list(p1, p2))
                         },
                         
@@ -80,9 +96,9 @@ linreg <- setRefClass(Class = "linreg",
                         summary = function(){
                           
                           
-                            
+                          
                         }
                         
                         
                         
-))
+                      ))
