@@ -1,8 +1,12 @@
+linreg_mod <- linreg$new(Petal.Length~Sepal.Width+Sepal.Length, data=iris)
+
+linreg_mod$print()
+
 
 linreg <- setRefClass(Class = "linreg",
                       
-                      
-                      fields = list(formula="formula", data="data.frame", Beta="matrix", yf="matrix", e="matrix", dfreedom="numeric", 
+                    
+                      fields = list(formula="formula", data="data.frame", regco="matrix", yf="matrix", e="matrix", dfreedom="numeric", 
                                     Sigma_square="numeric", Var_Beta="matrix", t_Beta="matrix", pvalue="matrix",
                                     parse="character", stand_res="matrix",variance="numeric"),
                       
@@ -16,11 +20,6 @@ linreg <- setRefClass(Class = "linreg",
                           d<-all.vars(formula)
                           stopifnot(d %in% c)
                           stopifnot (is.data.frame(data))
-                      
-                        
-                        
-                        
-                          
                           formula <<- formula
                           data <<- data
                           X <- model.matrix(formula,data)
@@ -28,11 +27,11 @@ linreg <- setRefClass(Class = "linreg",
                           y <- (data[,dep_y])
                           parse <<- deparse(substitute(data))
                           #Regressions coefficients
-                          Beta <<- solve((t(X)%*%X))%*%t(X)%*%y
+                          regco <<- solve((t(X)%*%X))%*%t(X)%*%y
                           #X <- QR
                           #Beta <- solve(R)%*%t(Q)%*%y
                           #Fitted values
-                          yf <<- X%*%Beta
+                          yf <<- X%*%regco
                           #Residuals
                           e <<- y-yf
                           #Degrees of freedom
@@ -42,7 +41,7 @@ linreg <- setRefClass(Class = "linreg",
                           #Variance of regression coefficients
                           Var_Beta <<- Sigma_square * solve((t(X)%*%X))
                           #t-values for each coefficient
-                          t_Beta <<- Beta / sqrt(diag(Var_Beta))
+                          t_Beta <<- regco / sqrt(diag(Var_Beta))
                           #p values for reg coefficients
                           pvalue <<- pt(abs(t_Beta),dfreedom)
                           #variance value
@@ -54,6 +53,7 @@ linreg <- setRefClass(Class = "linreg",
                         #Methods
                         #print(),plot(), resid(),pred(),coef(),summary()
                         print = function(){
+                          regco
                           
                         },
                         
