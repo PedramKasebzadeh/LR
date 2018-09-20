@@ -2,7 +2,7 @@
 #Calculations storing in an object with class linreg
 linreg <- setRefClass(Class = "linreg",
                       fields = list(formula="formula", data="data.frame", Beta="matrix", yf="matrix", e="matrix", df="numeric", 
-                                    sigma_square="numeric", var_Beta="matrix", t_Beta="matrix", p="matrix",
+                                    Sigma_square="numeric", Var_Beta="matrix", t_Beta="matrix", pvalue="matrix",
                                     parse="character", stand_res="matrix",variance="numeric"),
                       methods = list(
                         inputs = function(formula,data){
@@ -13,27 +13,27 @@ linreg <- setRefClass(Class = "linreg",
                           y <- (data[,dep_y])
                           parse <<- deparse(substitute(data))
                           #Regressions coeﬃcients
-                          Beta <- solve((t(X)%*%X))%*%t(X)%*%y
+                          Beta <<- solve((t(X)%*%X))%*%t(X)%*%y
                           #X <- QR
                           #Beta <- solve(R)%*%t(Q)%*%y
                           #Fitted values
-                          yf <- X%*%Beta
+                          yf <<- X%*%Beta
                           #Residuals
-                          e <- y-yf
+                          e <<- y-yf
                           #Degrees of freedom
-                          df <- nrow(X)-ncol(X)
+                          df <<- nrow(X)-ncol(X)
                           #Residual variance
-                          Sigma_square <- (t(e)%*%e) / df
+                          Sigma_square <<- (t(e)%*%e) / df
                           #Variance of regression coefficients
-                          Var_Beta <- Sigma_square * solve((t(X)%*%X))
+                          Var_Beta <<- Sigma_square * solve((t(X)%*%X))
                           #t-values for each coefficient
-                          t_Beta <- Beta / sqrt(diag(Var_Beta))
+                          t_Beta <<- Beta / sqrt(diag(Var_Beta))
                           #p values for reg coefficients
-                          pvalue <- pt(abs(t_Beta),df)
+                          pvalue <<- pt(abs(t_Beta),df)
                           #variance value
-                          variance <- round(sqrt(Sigma_square),2)
+                          variance <<- round(sqrt(Sigma_square),2)
                           #standardised residual for plot2
-                          stand_res <- sqrt(abs((e-mean(e)) / sqrt(Sigma_square)))
+                          stand_res <<- sqrt(abs((e-mean(e)) / sqrt(Sigma_square)))
                         },
                         
                         #Methods
