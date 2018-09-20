@@ -12,7 +12,7 @@ linreg <- setRefClass(Class = "linreg",
                           dep_y <- all.vars(formula)[1]
                           y <- (data[,dep_y])
                           parse <<- deparse(substitute(data))
-                          #Regressions coeﬃcients
+                          #Regressions coefficients
                           Beta <<- solve((t(X)%*%X))%*%t(X)%*%y
                           #X <- QR
                           #Beta <- solve(R)%*%t(Q)%*%y
@@ -38,12 +38,12 @@ linreg <- setRefClass(Class = "linreg",
                         
                         #Methods
                         #print(),plot(), resid(),pred(),coef(),summary()
-                        print <- function(){
+                        print = function(){
                              
                          },
                         
                         
-                        plot <- function(){
+                        plot = function(){
                           library(ggplot2)
                           #plotting yf and e
                           data_frame1 <- data.frame(Fitted_values=yf,Residuals=e)
@@ -62,21 +62,22 @@ linreg <- setRefClass(Class = "linreg",
                           return(list(p1, p2))
                         },
                         
-                        resid <- function(){
+                        resid = function(){
                           cat("Returning vector of residuals e:", "\n")
                           return(as.vector(round(e,2)))
                         },
                         
-                        pred <- function(){
+                        pred = function(){
                           cat("Returning predicted values yf:", "\n")
                           return(as.vector(round(yf,2)))
                         },
                         
-                        coef <- function(){
+                        coef = function(){
                           cat("Returning coefficients as a vector:", "\n")
                           return(as.vector(round(Beta,2)))
                         },
-                        summary <- function(){
+                        
+                        summary = function(){
                           
                           
                             
@@ -84,28 +85,4 @@ linreg <- setRefClass(Class = "linreg",
                         
                         
                         
-                    
-                        
-                        
-                        
-                      ))
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-
-
-
-
-
-
-
-
-
+))
