@@ -1,16 +1,12 @@
 
-
-linreg$new(formula = Petal.Length~Sepal.Width+Sepal.Length, data=iris)
-linreg$new(formula = Petal.Length~Sepal.Width+Sepal.Length, data=iris)
-
-formula = Petal.Length~Sepal.Width+Sepal.Length
-data=iris
-
 linreg <- setRefClass(Class = "linreg",
                       
-                      fields = list(formula="formula", data="data.frame", Beta="matrix", yf="matrix", e="matrix", df="numeric" 
-                                    , Var_Beta="matrix", t_Beta="matrix", pvalue="matrix",
+                      
+                      fields = list(formula="formula", data="data.frame", Beta="matrix", yf="matrix", e="matrix", dfreedom="numeric", 
+                                    Sigma_square="numeric", Var_Beta="matrix", t_Beta="matrix", pvalue="matrix",
                                     parse="character", stand_res="matrix",variance="numeric"),
+                      
+                      
                       
                       methods = list(
                         
@@ -20,51 +16,44 @@ linreg <- setRefClass(Class = "linreg",
                           d<-all.vars(formula)
                           stopifnot(d %in% c)
                           stopifnot (is.data.frame(data))
+                      
+                        
+                        
+                        
+                          
                           formula <<- formula
                           data <<- data
                           X <- model.matrix(formula,data)
                           dep_y <- all.vars(formula)[1]
                           y <- (data[,dep_y])
-                          #parse <<- deparse(substitute(data)) not sure we need it
+                          parse <<- deparse(substitute(data))
                           #Regressions coefficients
-                          
-                          
-                          
-                          
-                          #1 regressions coefficients
-                          Beta <<- solve(  t(X) %*% X)   %*%   t(X)   %*% y
-                          
-                          
-                          #2 fitted values
-                          yf <<- X %*% Beta
-                          
+                          Beta <<- solve((t(X)%*%X))%*%t(X)%*%y
+                          #X <- QR
+                          #Beta <- solve(R)%*%t(Q)%*%y
+                          #Fitted values
+                          yf <<- X%*%Beta
                           #Residuals
                           e <<- y-yf
-                          
                           #Degrees of freedom
-                          
-                           adf<<- nrow(X)-ncol(X)
-                          
-                          #Residual variance needs a solve. 
-                          Sigma_square <<- solve(t(e)%*%e) / df 
-                          
-                          #THROWS error, commented until fixed
-                          
+                          dfreedom <<- nrow(X)-ncol(X)
+                          #Residual variance
+                          Sigma_square <<- as.numeric((t(e)%*%e) / dfreedom)
                           #Variance of regression coefficients
-                          #Var_Beta <<- Sigma_square * solve((t(X)%*%X))
+                          Var_Beta <<- Sigma_square * solve((t(X)%*%X))
                           #t-values for each coefficient
-                         # t_Beta <<- Beta / sqrt(diag(Var_Beta))
+                          t_Beta <<- Beta / sqrt(diag(Var_Beta))
                           #p values for reg coefficients
-                          #pvalue <<- pt(abs(t_Beta),df)
+                          pvalue <<- pt(abs(t_Beta),dfreedom)
                           #variance value
-                          #variance <<- round(sqrt(Sigma_square),2)
+                          variance <<- round(sqrt(Sigma_square),2)
                           #standardised residual for plot2
-                          #stand_res <<- sqrt(abs((e-mean(e)) / sqrt(Sigma_square)))
+                          stand_res <<- sqrt(abs((e-mean(e)) / sqrt(Sigma_square)))
+                        
                         },
-                        
-                        
+                        #Methods
+                        #print(),plot(), resid(),pred(),coef(),summary()
                         print = function(){
-                          
                           
                         },
                         
