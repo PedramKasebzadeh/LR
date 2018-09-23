@@ -1,0 +1,91 @@
+---
+title: "Linear Regression"
+author: "Mariano, Roshni and Pedram"
+date: "9/22/2018"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Linear Regression}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This vignette summarises functions of LR package and gives examples on how to use them.
+
+
+
+#DATA
+To explore the basic functions of LR, we'll use ``` iris ```.This is perhaps the best known database to be found in the pattern recognition literature. The data set contains 3 classes of 50 instances each, where each class refers to a type of iris plant. One class is linearly separable from the other 2; the latter are NOT linearly separable from each other. you can see first 10 rows below:
+```{r,echo=FALSE}
+head(iris,10)
+```
+
+
+#Included functions 
+LR has a vary of functions to provide analasis on data.
+
+
+    *print()   prints out the coeffcients and coeffcient names.
+    *plot()    plots  two plots using ggplot2
+    *resid()   returns the vector of residuals e.
+    *pred()    returns the predicted values ^y.
+    *coef()    returns the coeffcients as a named vector.
+    *summary() returns a similar printout as printed for lm objects
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Figures
+
+The figure sizes have been customised so that you can easily put two images side-by-side. 
+
+```{r, fig.show='hold'}
+plot(1:10)
+plot(10:1)
+```
+
+You can enable figure captions by `fig_caption: yes` in YAML:
+
+    output:
+      rmarkdown::html_vignette:
+        fig_caption: yes
+
+Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
+
+## More Examples
+
+You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
+
+```{r, echo=FALSE, results='asis'}
+knitr::kable(head(mtcars, 10))
+```
+
+Also a quote using `>`:
+
+> "He who gives up [code] safety for [code] speed deserves neither."
+([via](https://twitter.com/hadleywickham/status/504368538874703872))

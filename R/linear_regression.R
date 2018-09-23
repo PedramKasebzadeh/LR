@@ -1,4 +1,8 @@
-
+#' A Reference Class for cumputating Linear Regression
+#'
+#'This class has a vary of functions.
+#'
+#' @field computing a liner regression 
 
 
 linreg <- setRefClass(Class = "linreg",
@@ -92,6 +96,7 @@ linreg <- setRefClass(Class = "linreg",
                         
                         summary = function(){
                           
+                          base::summary()
                           
                           
                         }
