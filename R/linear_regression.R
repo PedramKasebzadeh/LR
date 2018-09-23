@@ -66,18 +66,28 @@ linreg <- setRefClass(Class = "linreg",
                           #plotting yf and e
                           data_frame1 <- data.frame(Fitted_values=yf,Residuals=e)
                           p1 <- ggplot(data_frame1,aes(Fitted_values,Residuals))+
-                            geom_point()+geom_abline()+
+                            geom_point(shape = 21, colour = "black", fill = "white", size = 2.8, stroke = 1.3)+
+                            geom_smooth(method = "loess",color = "red", se = FALSE)+
                             ggtitle("Residuals vs Fitted")+
-                            xlab("Fitted values lm(Petal.Length ~ Species)")+
-                            ylab("Residuals")
+                            xlab("Fitted values linreg(Petal.Length ~ Species)")+
+                            ylab("Residuals")+
+                            xlim(1,6)+
+                            ylim(-1.5,1.5)+
+                            theme(panel.background = element_blank(),
+                                  panel.border = element_rect(colour = "black", fill=NA, size=1))
                           
                           data_frame2 <- data.frame(Fitted_values=yf,Residuals=stand_res)
                           p2 <- ggplot(data_frame2,aes(Fitted_values,Residuals))+
-                            geom_point()+geom_abline()+
+                            geom_point(shape = 21, colour = "black", fill = "white", size = 2.8, stroke = 1.3)+
+                            geom_smooth(method = "loess",color = "red", se = FALSE)+
                             ggtitle("Scale-Location")+
-                            xlab("Fitted values lm(Petal.Length ~ Species)")+
-                            ylab(expression(bold(sqrt(bold("Standardized Residuals")))) )
-                          return(list(p1, p2))
+                            xlab("Fitted values linreg(Petal.Length ~ Species)")+
+                            ylab(expression(sqrt("Standardized Residuals")))+
+                            xlim(1,6)+
+                            ylim(0.0,1.5)+
+                            theme(panel.background = element_blank(),
+                              panel.border = element_rect(colour = "black", fill=NA, size=1))
+                          return(list(p1,p2))
                         },
                         
                         resid = function(){
