@@ -159,7 +159,7 @@ linreg <- function (formula,data)
                         }
 ```
 
-This vignette summarises functions of LR package and gives examples on how to use them.
+This vignette summarizes functions of LR package and gives examples on how to use them.
 
 
 
@@ -171,21 +171,21 @@ head(iris,10)
 
 
 #Included functions 
-LR has a vary of functions to provide analasis on data.
+LR has a vary of functions to provide analysis  on data.
 
 
-    *print()   prints out the coeffcients and coeffcient names.
+    *print()   prints out the coefficients and coefficient names.
     *plot()    plots  two plots using ggplot2
     *resid()   returns the vector of residuals e.
     *pred()    returns the predicted values ^y.
-    *coef()    returns the coeffcients as a named vector.
+    *coef()    returns the coefficients as a named vector.
     *summary() returns a similar printout as printed for lm objects
     
 
 ##Print()
 
 
-prints out the coeffcients and coeffcient names, similar as done by the lm class.
+prints out the coefficients and coefficient names, similar as done by the lm class.
 
 ```{r,echo=FALSE}
 data(iris)
@@ -275,7 +275,7 @@ returns the  predicted values of y_hat.
 
 #coef()
 
-This function returns the coffcients as a named vector
+This function returns the cofficients as a named vector
 ```{r,echo=FALSE}
                         coef = function(){
                           cat("Returning coefficients as a vector:", "\n")
@@ -288,8 +288,9 @@ return(as.vector(round(regco,2)))
 #summary()
 
 
-this function returns a similar printout as printed for lm objects, but you only need to present the coeffcients with their standard error, t-value and p-value as well as the estimate of sigma and the degrees
+this function returns a similar printout as printed for lm objects, but you only need to present the coefficients with their standard error, t-value and p-value as well as the estimate of sigma and the degrees
 of freedom in the model.
+
 
 
 

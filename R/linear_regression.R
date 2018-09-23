@@ -3,6 +3,7 @@
 #'This class has a vary of functions.
 #'
 #' @field computing a liner regression 
+#' library(ggplot2)
 
 
 linreg <- setRefClass(Class = "linreg",
