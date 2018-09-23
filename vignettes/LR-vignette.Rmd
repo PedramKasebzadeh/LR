@@ -251,54 +251,58 @@ formula = Petal.Length ~ Species
 ```
 
 
+#resid()
+this function returns the vector of residuals e.
+```{r,echo=FALSE}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Figures
-
-The figure sizes have been customised so that you can easily put two images side-by-side. 
-
-```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
+resid(cat("Returning vector of residuals e:", "\n"))
+                          return(as.vector(round(e,2)))
 ```
 
-You can enable figure captions by `fig_caption: yes` in YAML:
 
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
+#pred()
+returns the  predicted values of y_hat.
+```{r,echo=FALSE}
+             pred = function(){
+                          cat("Returning predicted values yf:", "\n")
+                          return(as.vector(round(yf,2)))
+                        }
+                          return(as.vector(round(yf,2)))
 
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
-
-## More Examples
-
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
-
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
 ```
 
-Also a quote using `>`:
 
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
+
+#coef()
+
+This function returns the coffcients as a named vector
+```{r,echo=FALSE}
+                        coef = function(){
+                          cat("Returning coefficients as a vector:", "\n")
+                          return(as.vector(round(regco,2)))
+                        }
+return(as.vector(round(regco,2)))
+```
+
+
+#summary()
+
+
+this function returns a similar printout as printed for lm objects, but you only need to present the coeffcients with their standard error, t-value and p-value as well as the estimate of sigma and the degrees
+of freedom in the model.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
