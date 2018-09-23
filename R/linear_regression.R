@@ -56,10 +56,12 @@ linreg <- setRefClass(Class = "linreg",
                         #Methods
                         #print(),plot(), resid(),pred(),coef(),summary()
                         print = function(){
-                          regco
-                          
-                        },
-                        
+                          cat("Coefficients:","\n",
+                              paste(row.names(regco)),"\n",
+                              format(round(regco,2),width = 12)
+                           )   
+                           },
+                            
                         
                         plot = function(){
                           library(ggplot2)
