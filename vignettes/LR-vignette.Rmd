@@ -163,8 +163,7 @@ linreg <- function (formula,data)
 This vignette summarizes functions of LR package and gives examples on how to use them.
 
 
-In this package, beta and variance were calculated by implementing QR.
-
+In the package, beta and var(beta) were also calculated by QR implementation.
 
 
 #DATA
