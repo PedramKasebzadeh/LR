@@ -5,7 +5,6 @@
 #' @field computing a liner regression 
 #' library(ggplot2)
 
-
 linreg <- setRefClass(Class = "linreg",
                       
                     
@@ -29,8 +28,12 @@ linreg <- setRefClass(Class = "linreg",
                           dep_y <- all.vars(formula)[1]
                           y <- (data[,dep_y])
                           parse <<- deparse(substitute(data))
+                          QR <- qr(X)
+                          Q <- qr.Q(QR)
+                          R <- qr.R(QR)
+                          
                           #Regressions coefficients
-                          regco <<- solve((t(X)%*%X))%*%t(X)%*%y
+                          regco <<- backsolve(R,crossprod(Q,y))
                           #X <- QR
                           #Beta <- solve(R)%*%t(Q)%*%y
                           #Fitted values
