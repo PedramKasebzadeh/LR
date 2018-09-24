@@ -76,30 +76,55 @@ linreg <- setRefClass(Class = "linreg",
                         
                         plot = function(){
                           library(ggplot2)
+                          library(ggThemeAssist)
+                          
+                            LiU_theme <-  theme(
+                            axis.title.x = element_text(color = "#38ccd6", size = 14, face = "bold"),
+                            axis.title.y = element_text(color = "#38ccd6", size = 14, face = "bold"),
+                            axis.text = element_text(color = "#1c1c19", size = 6),
+                            axis.line = element_line(color = "#1c1c19", size = 0.5),
+                            axis.ticks = element_line(color = "#38ccd6", size = 0.5),
+                            axis.text.x = element_text(size = 8),
+                            axis.text.y = element_text(size = 8),
+                            panel.background = element_rect(fill = "white", color = NA),
+                            panel.grid.major = element_line(color = "#1c1c19", size = 0.5),
+                            panel.grid.major.x = element_blank(), panel.grid.minor.x = element_blank(), 
+                            panel.grid.major.y = element_blank(), panel.grid.minor.y = element_blank(),
+                            panel.grid.minor = element_line(color = "#1c1c19", size = 5),
+                            plot.background = element_rect(color = "black"),
+                            plot.title = element_text(color = "#38ccd6", size = 20, face = "bold",hjust = 0.5),
+                            plot.caption = element_text(size = 10,hjust=0.5),
+                            plot.margin = unit(c(1.2,1.2,1.2,1.2), "cm")
+                            )
+                          
+                                
+                          
+                          title <- paste("Fitted values linreg(", formula[2]," ", formula[1], " ", formula[3], ")")
+                              
                           #plotting yf and e
                           data_frame1 <- data.frame(Fitted_values=yf,Residuals=e)
                           p1 <- ggplot(data_frame1,aes(Fitted_values,Residuals))+
                             geom_point(shape = 21, colour = "black", fill = "white", size = 2.8, stroke = 1.3)+
                             geom_smooth(method = "loess",color = "red", se = FALSE)+
                             ggtitle("Residuals vs Fitted")+
-                            xlab("Fitted values linreg(Petal.Length ~ Species)")+
+                            xlab(title)+
                             ylab("Residuals")+
                             xlim(1,6)+
                             ylim(-1.5,1.5)+
-                            theme(panel.background = element_blank(),
-                                  panel.border = element_rect(colour = "black", fill=NA, size=1))
+                            LiU_theme
+                                                       
                           
                           data_frame2 <- data.frame(Fitted_values=yf,Residuals=stand_res)
                           p2 <- ggplot(data_frame2,aes(Fitted_values,Residuals))+
                             geom_point(shape = 21, colour = "black", fill = "white", size = 2.8, stroke = 1.3)+
                             geom_smooth(method = "loess",color = "red", se = FALSE)+
                             ggtitle("Scale-Location")+
-                            xlab("Fitted values linreg(Petal.Length ~ Species)")+
-                            ylab(expression(sqrt("Standardized Residuals")))+
+                            xlab(title)+
+                            ylab(expression(bold(sqrt("Standardized Residuals"))))+
                             xlim(1,6)+
                             ylim(0.0,1.5)+
-                            theme(panel.background = element_blank(),
-                              panel.border = element_rect(colour = "black", fill=NA, size=1))
+                            LiU_theme
+                                                       
                           return(list(p1,p2))
                         },
                         
