@@ -165,13 +165,7 @@ This vignette summarizes functions of LR package and gives examples on how to us
 
 
 #DATA
-To explore the basic functions of LR, we'll use ``` iris ```.
-
-
-This is perhaps the best known database to be found in the pattern recognition literature.
-
-
-The data set contains 3 classes of 50 instances each, where each class refers to a type of iris plant. One class is linearly separable from the other 2; the latter are NOT linearly separable from each other. you can see first 10 rows below:
+To explore the basic functions of LR, we'll use ``` iris ```.This is perhaps the best known database to be found in the pattern recognition literature. The data set contains 3 classes of 50 instances each, where each class refers to a type of iris plant. One class is linearly separable from the other 2; the latter are NOT linearly separable from each other. you can see first 10 rows below:
 ```{r,echo=FALSE}
 head(iris,10)
 ```
@@ -204,12 +198,44 @@ print(mod_object)
 
 This function plots two plots using ggplot2 shown below:
 
-```{r,echo=FALSE message=FALSE, warning=FALSE, paged.print=FALSE, r,echo=FALSE}
- 
+```{r fig.height=5, fig.width=5, message=FALSE, warning=FALSE, paged.print=TRUE, r,echo=FALSE}
  library(ggplot2)
-library(ggThemeAssist)
-                          
-                            LiU_theme <-  theme(
+ library(ggThemeAssist)
+data <- iris
+formula = Petal.Length ~ Species
+                          c<-colnames(data)
+                          d<-all.vars(formula)
+                          stopifnot(d %in% c)
+                          stopifnot (is.data.frame(data))
+
+                          X <- model.matrix(formula,data)
+                          dep_y <- all.vars(formula)[1]
+                          y <- (data[,dep_y])
+                          parse<- deparse(substitute(data))
+                          #Regressions coefficients
+                          regco <<- solve((t(X)%*%X))%*%t(X)%*%y
+                          #X <- QR
+                          #Beta <- solve(R)%*%t(Q)%*%y
+                          #Fitted values
+                          yf <<- X%*%regco
+                          #Residuals
+                          e <<- y-yf
+                          #Degrees of freedom
+                          dfreedom <<- nrow(X)-ncol(X)
+                          #Residual variance
+                          Sigma_square <<- as.numeric((t(e)%*%e) / dfreedom)
+                          #Variance of regression coefficients
+                          Var_Beta <<- Sigma_square * solve((t(X)%*%X))
+                          #t-values for each coefficient
+                          t_Beta <<- regco / sqrt(diag(Var_Beta))
+                          #p values for reg coefficients
+                          pvalue <<- pt(abs(t_Beta),dfreedom)
+                          #variance value
+                          variance <<- round(sqrt(Sigma_square),2)
+                          #standardised residual for plot2
+                          stand_res <<- sqrt(abs((e-mean(e)) / sqrt(Sigma_square)))
+                        
+                          LiU_theme <-  theme(
                             axis.title.x = element_text(color = "#38ccd6", size = 14, face = "bold"),
                             axis.title.y = element_text(color = "#38ccd6", size = 14, face = "bold"),
                             axis.text = element_text(color = "#1c1c19", size = 6),
@@ -257,7 +283,6 @@ library(ggThemeAssist)
                             LiU_theme
                                                        
                           print(list(p1,p2))
-                        
 ```
 
 
@@ -300,6 +325,11 @@ return(as.vector(round(regco,2)))
 
 this function returns a similar printout as printed for lm objects, but you only need to present the coefficients with their standard error, t-value and p-value as well as the estimate of sigma and the degrees
 of freedom in the model.
+
+```{r}
+
+```
+
 
 
 
