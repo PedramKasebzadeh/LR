@@ -326,7 +326,18 @@ return(as.vector(round(regco,2)))
 this function returns a similar printout as printed for lm objects, but you only need to present the coefficients with their standard error, t-value and p-value as well as the estimate of sigma and the degrees
 of freedom in the model.
 
-```{r}
+```{r,echo=FALSE}
+  summary = function(){
+                          
+a<-paste("Residual standard error",sqrt(Sigma_square),"on",dfreedom, "degrees of freedom")
+                          
+                          return(list(regco=regco,pvalue=pvalue,t_beta=t_Beta,var_and_degree_f=a))
+                          
+  }
+a<-paste("Residual standard error",sqrt(Sigma_square),"on",dfreedom, "degrees of freedom")
+                          
+                          return(list(regco=regco,pvalue=pvalue,t_beta=t_Beta,var_and_degree_f=a))
+                          
 
 ```
 
