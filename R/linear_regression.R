@@ -115,15 +115,14 @@ linreg <- setRefClass(Class = "linreg",
                         
                         coef = function(){
                           cat("Returning coefficients as a vector:", "\n")
-                          return(as.vector(round(Beta,2)))
+                          return(as.vector(round(regco,2)))
                         },
                         
                         summary = function(){
                           
-                        return(list(regco,t_Beta,stand_res,dfreedom))
+                          a<-paste("Residual standard error",sqrt(Sigma_square),"on",dfreedom, "degrees of freedom")
                           
-                          
-
+                          return(list(regco=regco,pvalue=pvalue,t_beta=t_Beta,var_and_degree_f=a))
                           
                         }
                         
