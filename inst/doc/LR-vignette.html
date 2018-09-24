@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Mariano, Roshni and Pedram" />
+
+
+<title>Linear Regression</title>
+
+
+
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Linear Regression</h1>
+<h4 class="author"><em>Mariano, Roshni and Pedram</em></h4>
+<h4 class="date"><em>9/22/2018</em></h4>
+
+
+
+<p>This vignette summarizes functions of LR package and gives examples on how to use them.</p>
+<div id="data" class="section level1">
+<h1>DATA</h1>
+<p>To explore the basic functions of LR, we’ll use <code>iris</code>.This is perhaps the best known database to be found in the pattern recognition literature. The data set contains 3 classes of 50 instances each, where each class refers to a type of iris plant. One class is linearly separable from the other 2; the latter are NOT linearly separable from each other. you can see first 10 rows below:</p>
+<pre><code>#&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+#&gt; 1           5.1         3.5          1.4         0.2  setosa
+#&gt; 2           4.9         3.0          1.4         0.2  setosa
+#&gt; 3           4.7         3.2          1.3         0.2  setosa
+#&gt; 4           4.6         3.1          1.5         0.2  setosa
+#&gt; 5           5.0         3.6          1.4         0.2  setosa
+#&gt; 6           5.4         3.9          1.7         0.4  setosa
+#&gt; 7           4.6         3.4          1.4         0.3  setosa
+#&gt; 8           5.0         3.4          1.5         0.2  setosa
+#&gt; 9           4.4         2.9          1.4         0.2  setosa
+#&gt; 10          4.9         3.1          1.5         0.1  setosa</code></pre>
+</div>
+<div id="included-functions" class="section level1">
+<h1>Included functions</h1>
+<p>LR has a vary of functions to provide analysis on data.</p>
+<pre><code>*print()   prints out the coefficients and coefficient names.
+*plot()    plots  two plots using ggplot2
+*resid()   returns the vector of residuals e.
+*pred()    returns the predicted values ^y.
+*coef()    returns the coefficients as a named vector.
+*summary() returns a similar printout as printed for lm objects</code></pre>
+<div id="print" class="section level2">
+<h2>Print()</h2>
+<p>prints out the coefficients and coefficient names, similar as done by the lm class.</p>
+<pre><code>#&gt; 
+#&gt; Call:
+#&gt; lm(formula = Petal.Length ~ Species, data = iris)
+#&gt; 
+#&gt; Coefficients:
+#&gt;       (Intercept)  Speciesversicolor   Speciesvirginica  
+#&gt;             1.462              2.798              4.090</code></pre>
+</div>
+<div id="plot" class="section level2">
+<h2>Plot()</h2>
+<p>This function plots two plots using ggplot2 shown below:</p>
+<pre><code>#&gt; [[1]]</code></pre>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASAAAAEgCAMAAAAjXV6yAAABJlBMVEUAAAAAADoAAGYAOjoAOmYAOpAAZrYzMzM6AAA6ADo6AGY6OgA6OmY6ZmY6ZpA6ZrY6kLY6kNtNTU1NTW5NTY5NbqtNjshmAABmADpmOgBmOmZmZmZmkJBmkNtmtrZmtttmtv9uTU1uTW5uTY5ubo5ubqtuq+SOTU2OTW6OTY6Obk2OyP+QOgCQZgCQZjqQZmaQkGaQkLaQtpCQttuQtv+Q27aQ2/+rbk2rbm6rbo6ryKur5OSr5P+2ZgC2Zjq2kDq2tpC2ttu225C229u22/+2/9u2///Ijk3I///bkDrbkGbbkJDbtmbbtpDb27bb29vb/7bb/9vb///kq27k///r6+v/tmb/tpD/yI7/25D/27b/29v/5Kv//7b//8j//9v//+T////y1DoxAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAMxElEQVR4nO2djZ/bNhnHnVsb0sLKcmVNC4xlg23AAoyW3cZoGLDuboEO1hfMpbs05///n0CPXiw5kf1IsSQnzvN8Pr07+yfrefyN9Eh2VDsryBot6zqAfTcChBgBQowAIUaAECNAiBEgxAgQYjsCWmTCfvTEKq9nN5+rv4ZICVdXJ+f8mOVPzwvxY6tGu6eW1hIQC9smRwS0AI8Li9s9AyQiXP81GzcXDACoCuOwABWrCQB69UB2tvXvs2zwrjr9p6PsxlcsbLElTuDpD1mJd2QJVdyocjUZVncbMNgxz2asLb0FP8aG29JTBGsH6Ps5BLocQRcYnLEz4J1hKk6f940bDyqAZH8RJcri3JYj+CPPptXd9YBKt9pTBAuQg9Yz+Li/HQ1ZyD9mWXQkkKwmg0fFq1lmAlrPTp4UZYmyODdRan5yXt2tXHFHZg7SbrWnCNYO0ICdCjsXnocWcGpv/Pwr+FucPuxWMMoc8Z+//WGUKUCyuKyTNQboYZu7awCZbpWnCNamiz0d3YFEm8vGxM5vDr/vPOGnkvNOsq7mINEtVKtSxYXBefKDqrsrXcwApN1qTxGsVQ7KMzhzA1Dx7YNyQLYBWk2yN//49+8map8sLuqEXXO+Udl9yIAKmaOnpvTv30GeVV0M+kzBT1v0Hiiqu50sriodfDoZGrVUXBWbgLRbw1N4awdoNRHZ8hEbc2cn53n2Fhu7vxycyST9LoxrACh7R/zF0DyH0RlGMGhjsrisdDn6GVDZ2L0JiA9bfMhUbg1P4a3lPGgBUcnGPlbDvDh9sZsPvuVfsoAsURaXlbJtqHZj9yYgcMR/lG4NT+GtJSB2MuwzX7Kc8QbM7PgUj41sZYa58TXPDP8cZXeewV8wt7vxaC4vG1TxslbRCKq7NwCtHmTD5/yHdmt4Cm50NY8YAUKMACFGgBAjQIgRIMQIEGIECDEChNhugP6rLTM3qlarBBSiOSFAiBAKUNZB7EmcBAKUdRF7EidhAGWdxJ7ECQFChCCAsm5iT+IkBKCso9iTOCFANiHLsnKjPaAsaewpnPB73GqjNaCypiSxJ3FCgBAhKCDdWZPEnsZJwByUGdUmiT21k5aAsppqk8SexAkBQoSWgDqNPYmTdoCOyKgF1QgECBEIECIQIEQgQDYh7NV82thTOAl7sZo29iROCBAiECBMoBzkLhAgRCBAiECAbALloGZhp1Hs6pff8N+vPzp9+yUB2rLL059wQNeffVy8uEeANu3i7heiBb3+zTdlY+otoJ1ykKRy9cHL4vWvH7O/fsAMO6hH5gro8m0FCKyDDze1E19AugURICug48hB5oYnoOvPPuz/KFbZ8AEE/45hHlTZcAVktW5jT+KEACECAUIEAmQT+n41b5xfsovVQwJknh8BsigECFFaA6Ic5CH0ElBIgQAhQi8Bte5iPc9BezSK7afx8wtdAbUgQ+j7PIhyUEonBAgRCBAi9BIQXWo0K+0vVs0NAtQsECBE6CMgykEpnRAgm9D3mTR9q9GsdHGxqpcsvDg9lcsVCZA2Y+nmxcf9b0H+OUgvm7r+/LGx3zv2aELHw7xeeMf62ukpb0S0iNMwvXTz6v3HRivy/3BjCR3Pg6pLN3Ue6jb2WiX6HcXVZLqamK8Mqy7dtACCm9xOsccS0o5i8yG8g2Ch3y6gl25CZ7v+8+YwXw3JPZJwQlJArAHB+19yswnxeRA0IjYPulv2NXtI7pGEE1IDgheqmYBqzB6SeyThhKQ5aD0b5/CKJ/wFHmZI+5ODggo2QPByq2Exd3j5YLexJ3FiBeRs3cYezwnd7mgWGpM0mwApc0/S7rHHErq+3UGACJApYDlIvqLxULtY9NsdbB60nrG54tSC5CAAhRRsgADNnM2k8YlQt7EncVIHaDH0udTYs5l09Nsdc05n4foe7wCrAoNa/DWKLAkV86x8rWe9GR/ZHl2s7uEwT4AQQEeWg9TVxsHOg0IK9S1odd89B3UTexIn9YAOeB4UfZiXgA51HpQqSTvcUrSH5B5JOCEpIJmkaR7EN+pbkIPZQ3KPJJzQRQ7yALRfOSiosAWoB7dcgwrWFrQANMd8PwidSXM0BzvMR1/E6Q9ov5J0/FFMdrGx3qMXcVqfQHVsgIocShgpSC/itD+Js2eA2izirHkKXr9yUGXDCZBegkdP4hTL7zbmQXoRJz2J02q2FlQB1LMuFjwH9SxJo6PY1ipXvYjT/iTOYwO0tcrVWMRJ8yDrKtcaM2M6ohzkv8rVPfZYQtJRbIdVrp3EnsSJDRCtcu37HcXYtzv8AR3ZKFYUC3Yt77L6xR6SeyThhMTzoJvfiZH+SAE5DfPTY54HmRthADnHHktIO8wvoItVbrkeGSB0mOe3XHE+fe1i4Yb58miwVjWEtNbR2CqwVfgv+trH2oLmWQYD/GpytN+LNeegxck5LAPOK9/7IIB6loMqG5uAAE6R3/wyc1lG7h97LCHdMM+/d2aX8w5j2FEDcuLT2y7WlIMEoFv48jsTUM+SdOMoRoAIECoggDJlx3s1H/6Wq3PssYS0V/MEyNggQBaBvtVoFuhbDUTYARDyJM6jB4Q9ibNngCI8ibNfOaiy4QSInsRJT+KsCF5d7OL09N6RPYnTP0mjT+J0jj2W0Pko1vwkTufYown7MQ+qfRKnc+zRhI6H+Trzjj2a0PEwf2CAQgoECBF6CYjuKDYrXYxiBIgAGULfAVEOSumEACECAbIJfe9i+/Otxn4aP7/QFfSpBdEwjyh0uwNT6HZHQicECBEIECIQIEQgQIhAgBCBACECAUIEAoQIvQREM+lmpf21mLnhCkgt7rA+YMk59mhC54Au5cpN+4MmnWOPJnQN6OLuF6IF1Txo0jX2aEL3OUhSoQdN1pkERA+a3DJYo1hYWlCfAe1yR/HqgHJQW2Gne9KSiv1Bk+liT+JkZ0C1D5pMF3sSJ33/VqO90PdvNUIKBAgRCBAiECBEIECIQIAQgQAhAgFCBAKECAQIEXoJiL7VaFa6+VbjgKz1Ik5rpTsd5f3hRhP2tAV5xx5NoBzUlRMChAgECBEIECIQIEQgQIhAgBChHSA381/jsMOqiNhOCBBiBAgxAoRYn67moxgBQowAIUaAECNAiEUDdPWefHKns10aT9N1Nli/7WOVZ/a6WCxAsOATnt7pbvxRe/fwclV74fkpXPgVjwfoEk7VOxrjoZaOB/zqt14+qs/sdbGYOch4yKmj+bag68//4tfF9DN7XS0iIFgY62VX7931JPriQ88cVH1mr4vFA/T6I08+hXebu/rgpW+SBvPq+RFHMf/IfbMWDEmnp96fw14A8udT/d8grubZgqrP7HWxWIDEh+vbHnxz0E7zID8nNJNGjAAhRoAQI0CIESDECBBiBAgxF0DrGV+7lU3hFYivnhT8n2n2N9QjL0zcltezqXQ1MCTDmTyEvzO3ydghDc4XGw6aA3MDpAOCo7ecBwK0GCpXC12hWcwRkDVG7QXqzh3e1yxsjwCt7p8pV/yVndvFQgBizRR+zV3e2AzmBWh56+Eoy95k/8a83wGX1SQbfMIBiWLsA1qyAqwEi5GHCT9UaS5N1WmI+sawk+1bsJgNQOKQJXema6zEI2sV1UxFLA9v/4PXeeuTzPpab02XFwFOKjj4PdyK1w/Qmfp01rMhP6XVZFy+gF2eIf/4gZMGpEqL7dFUVTZiRywgSPmqcuVqDpv6EKNGM56yyEjUoGLhMcp922eTZ/J91suR8KKqgd/gqRqvR5Iem4By0Xqm/LcMRGrfPy9ZKkCq9PK2jpgDmkpebINTkK5Y8fIQVoVRowmoLCJrULEIQFOjS4qW8SfpGbL0UDs2PcnAjHh3bUELMbCNodUU8ryhHN/O+ThhAFKlizkPzaysUD8kINUB1CEi7LJGM55KEfAiYylzkCz/P/ZznlXeE7+ayObMvKpqVCbdiHdXQNKdCajIbz6bQSsfnG20oIUOjuWJsr01ApKHiC5W1lgBZBRpAmQzVRsAktWYgHS8uwLK5UyC16qqXt1/yFDlvBFVWlBuzjvkEIUAUodwZ7pGMx6zSNkx8pNmQHJf2cFvn1eqKTbj9QUEpyHGGBY0q2c1GZZJGhryUMS9HPHTgbS5ng3OVGl+CkaIJqBiPjYBaQdTs0YzHlVEIxZJWmbamhY0h5OHLKyTtKhGJWyepMt4fQFxBvAPMt/gzBzmCzX/Yh138KlIejA+/+L+WVk617PYLUC5HuaFV1FUOFQ1QoFy0JBFyhpULOyQhi62EAeLYX5oeNoY5mW8DoASGUwU21vuOgN0fHf8HgGCS41WBj2Rz2Dc7PAAyauA3U1OcBzt8ADtpREgxAgQYgQIMQKEGAFCjAAh9n+kboR3JIjVUwAAAABJRU5ErkJggg==" /><!-- --></p>
+<pre><code>#&gt; 
+#&gt; [[2]]</code></pre>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+</div>
+<div id="resid" class="section level1">
+<h1>resid()</h1>
+<p>this function returns the vector of residuals e.</p>
+<pre><code>#&gt; Returning vector of residuals e:
+#&gt; NULL
+#&gt;   [1] -0.06 -0.06 -0.16  0.04 -0.06  0.24 -0.06  0.04 -0.06  0.04  0.04
+#&gt;  [12]  0.14 -0.06 -0.36 -0.26  0.04 -0.16 -0.06  0.24  0.04  0.24  0.04
+#&gt;  [23] -0.46  0.24  0.44  0.14  0.14  0.04 -0.06  0.14  0.14  0.04  0.04
+#&gt;  [34] -0.06  0.04 -0.26 -0.16 -0.06 -0.16  0.04 -0.16 -0.16 -0.16  0.14
+#&gt;  [45]  0.44 -0.06  0.14 -0.06  0.04 -0.06  0.44  0.24  0.64 -0.26  0.34
+#&gt;  [56]  0.24  0.44 -0.96  0.34 -0.36 -0.76 -0.06 -0.26  0.44 -0.66  0.14
+#&gt;  [67]  0.24 -0.16  0.24 -0.36  0.54 -0.26  0.64  0.44  0.04  0.14  0.54
+#&gt;  [78]  0.74  0.24 -0.76 -0.46 -0.56 -0.36  0.84  0.24  0.24  0.44  0.14
+#&gt;  [89] -0.16 -0.26  0.14  0.34 -0.26 -0.96 -0.06 -0.06 -0.06  0.04 -1.26
+#&gt; [100] -0.16  0.45 -0.45  0.35  0.05  0.25  1.05 -1.05  0.75  0.25  0.55
+#&gt; [111] -0.45 -0.25 -0.05 -0.55 -0.45 -0.25 -0.05  1.15  1.35 -0.55  0.15
+#&gt; [122] -0.65  1.15 -0.65  0.15  0.45 -0.75 -0.65  0.05  0.25  0.55  0.85
+#&gt; [133]  0.05 -0.45  0.05  0.55  0.05 -0.05 -0.75 -0.15  0.05 -0.45 -0.45
+#&gt; [144]  0.35  0.15 -0.35 -0.55 -0.35 -0.15 -0.45</code></pre>
+</div>
+<div id="pred" class="section level1">
+<h1>pred()</h1>
+<p>returns the predicted values of y_hat.</p>
+<pre><code>#&gt;   [1] 1.46 1.46 1.46 1.46 1.46 1.46 1.46 1.46 1.46 1.46 1.46 1.46 1.46 1.46
+#&gt;  [15] 1.46 1.46 1.46 1.46 1.46 1.46 1.46 1.46 1.46 1.46 1.46 1.46 1.46 1.46
+#&gt;  [29] 1.46 1.46 1.46 1.46 1.46 1.46 1.46 1.46 1.46 1.46 1.46 1.46 1.46 1.46
+#&gt;  [43] 1.46 1.46 1.46 1.46 1.46 1.46 1.46 1.46 4.26 4.26 4.26 4.26 4.26 4.26
+#&gt;  [57] 4.26 4.26 4.26 4.26 4.26 4.26 4.26 4.26 4.26 4.26 4.26 4.26 4.26 4.26
+#&gt;  [71] 4.26 4.26 4.26 4.26 4.26 4.26 4.26 4.26 4.26 4.26 4.26 4.26 4.26 4.26
+#&gt;  [85] 4.26 4.26 4.26 4.26 4.26 4.26 4.26 4.26 4.26 4.26 4.26 4.26 4.26 4.26
+#&gt;  [99] 4.26 4.26 5.55 5.55 5.55 5.55 5.55 5.55 5.55 5.55 5.55 5.55 5.55 5.55
+#&gt; [113] 5.55 5.55 5.55 5.55 5.55 5.55 5.55 5.55 5.55 5.55 5.55 5.55 5.55 5.55
+#&gt; [127] 5.55 5.55 5.55 5.55 5.55 5.55 5.55 5.55 5.55 5.55 5.55 5.55 5.55 5.55
+#&gt; [141] 5.55 5.55 5.55 5.55 5.55 5.55 5.55 5.55 5.55 5.55</code></pre>
+</div>
+<div id="coef" class="section level1">
+<h1>coef()</h1>
+<p>This function returns the cofficients as a named vector</p>
+<pre><code>#&gt; [1] 1.46 2.80 4.09</code></pre>
+</div>
+<div id="summary" class="section level1">
+<h1>summary()</h1>
+<p>this function returns a similar printout as printed for lm objects, but you only need to present the coefficients with their standard error, t-value and p-value as well as the estimate of sigma and the degrees of freedom in the model.</p>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
