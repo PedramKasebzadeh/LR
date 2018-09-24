@@ -14,5 +14,4 @@ Suggests: testthat,
     rmarkdown,
     ggplot2,
     ggThemeAssist
-
 VignetteBuilder: knitr
