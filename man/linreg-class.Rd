@@ -5,13 +5,19 @@
 \alias{linreg-class}
 \alias{linreg}
 \title{A Reference Class for cumputating Linear Regression}
+\arguments{
+\item{formula}{A formula}
+
+\item{data}{A data frame}
+}
 \description{
 This class has a vary of functions.
 }
 \section{Fields}{
 
 \describe{
-\item{\code{computing}}{a liner regression}
+\item{\code{computing}}{a liner regression 
+library(ggplot2)}
 }}
 
 

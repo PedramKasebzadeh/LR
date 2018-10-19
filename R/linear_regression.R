@@ -1,10 +1,11 @@
 #' A Reference Class for cumputating Linear Regression
 #'
 #'This class has a vary of functions.
-#'
+#'@param formula A formula
+#'@param data A data frame 
 #' @field computing a liner regression 
 #' library(ggplot2)
-#' 
+#' @export
 
 #0.5  0.1  0.0
 
