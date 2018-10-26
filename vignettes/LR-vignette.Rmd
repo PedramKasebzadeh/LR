@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# RC class implementation
+# RC implementation
 
 ## Included methods
 
