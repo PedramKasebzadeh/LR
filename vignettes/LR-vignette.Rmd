@@ -10,7 +10,6 @@ vignette: >
   \usepackage[utf8]{inputenc}
 ---
 This vignette summarizes functions of LR package to fit the linear regression model where computations are done using OLS (Ordinary Least Squares) and gives examples on how to use them.
-Also using QR decomposition, the estimates of beta and var(beta) were computed.
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
@@ -83,7 +82,11 @@ linreg <- setRefClass(Class = "linreg",
                         
                         #print coefficients and coefficient names
                         print = function(){
-                          format(round(regco,2))
+                          cat("\n","Call:","\n",
+                          paste0("linreg(formula = ", format(formula), ", data = ", parse , ")\n\n ", sep = ""))
+                          cat("\n","Coefficients:","\n")
+                          (setNames(round(regco[1:nrow(regco)],2),rownames(regco)))
+                          
                           },
                         
                         #plot()
@@ -168,13 +171,24 @@ linreg <- setRefClass(Class = "linreg",
                         #summary()
                         summary = function(){
                           
-                        a<-paste("Residual standard error",sqrt(Sigma_square),"on",
-                                   dfreedom, "degrees of freedom")
-                        return(list(regco=regco,pvalue=pvalue,t_beta=t_Beta,var_and_degree_f=a))
-                            
+                          cat("linreg(formula = ", format(formula), ", data = ", parse, ") :\n\n ", sep = "")
+                          x <- setNames(as.data.frame(cbind(regco,as.matrix(sqrt(diag(Var_Beta))),t_Beta, formatC(pvalue, format = "e", digits = 2), p_cal(pvalue))), c("Coefficients","Standard error","t-values", "p-values", ""))
+                          print_custom(x)
+                          cat("\n\n Residual standard error: ", sqrt(Sigma_square), " on ", dfreedom, " degrees of freedom ", sep = "")
                         }
-                    
+  
                       ))
+print_custom <- function(x){
+  print(x)
+}
+
+p_cal = function(p_val) {
+  x <- ifelse(p_val > 0.1, " ",
+              (ifelse(p_val > 0.05, " . ",
+                      (ifelse(p_val > 0.01, "*",
+                              (ifelse(p_val > 0.001, "**","***")))))))
+  return(x)
+}
 ```
 
 ## Data
