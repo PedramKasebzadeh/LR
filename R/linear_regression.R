@@ -4,7 +4,17 @@
 #' @param formula A formula
 #' @param data A data frame 
 
-#' @field computing linear regression
+#' @field regco to find regression coefficients
+#' @field yf for the fitted values
+#' @field e for residuals
+#' @field dfreedom for degrees of freedom
+#' @field Sigma_square for residual variance
+#' @field Var_Beta for Variance of regression coefficients
+#' @field t_Beta for t-values for each coefficient
+#' @field pvalue for p-values for each coefficient
+#' @field parse to parse the input data
+#' @field stand_res for standardised residuals for plot2
+#' @field variance for variance values
 
 #' @return print() prints out the coefficients and coefficient names,
 #'         plot() plots the following two plots using ggplot2,
